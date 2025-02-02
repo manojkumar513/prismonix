@@ -1,0 +1,103 @@
+/* InnovatorForm.css */
+
+/* Container for the entire form */
+.investor-profile-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Form title */
+  .investor-profile-container h1 {
+    text-align: center;
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Form layout */
+  .investor-profile-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Form group styling */
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+  }
+  
+  .form-group input,
+  .form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+  }
+  
+  /* Textarea styling */
+  .form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  .form-group input:disabled,
+  .form-group textarea:disabled {
+    background-color: #f0f0f0;
+  }
+  
+  /* Checkbox group */
+  .form-group.terms {
+    display: flex;
+    align-items: center;
+  }
+  
+  .form-group.terms input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  /* Submit button */
+  .submit-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:disabled {
+    background-color: #a5c8ff;
+    cursor: not-allowed;
+  }
+  
+  .submit-btn:hover:enabled {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 600px) {
+    .investor-profile-container {
+      padding: 15px;
+    }
+  
+    .investor-profile-container h1 {
+      font-size: 1.8rem;
+    }
+  }
+  
