@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { FaBars, FaHome, FaUser, FaBell, FaCog, FaUsers, FaFacebookMessenger, FaPlusSquare, FaHeart } from "react-icons/fa";
+import {
+  FaBars,
+  FaHome,
+  FaUser,
+  FaBell,
+  FaCog,
+  FaUsers,
+  FaFacebookMessenger,
+  FaPlusSquare,
+  FaHeart,
+} from "react-icons/fa";
 import "../styles/DeveloperHome.css";
 
 const InvestorHome = () => {
@@ -13,6 +23,7 @@ const InvestorHome = () => {
     fetchPosts();
   }, []);
 
+  // Fetch posts from the backend
   const fetchPosts = async () => {
     setLoading(true);
     try {
@@ -37,6 +48,7 @@ const InvestorHome = () => {
     }
   };
 
+  // Handle input changes for post form
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "file") {
@@ -46,6 +58,7 @@ const InvestorHome = () => {
     }
   };
 
+  // Handle post submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,15 +96,17 @@ const InvestorHome = () => {
     }
   };
 
+  // Handle like/unlike post
   const handleLike = async (postId) => {
+    const isLiked = likes[postId];
     setLikes((prevLikes) => ({
       ...prevLikes,
-      [postId]: !prevLikes[postId],
+      [postId]: !isLiked,
     }));
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/posts/like/${postId}`, {
+      const response = await fetch(`http://localhost:5000/api/posts/${isLiked ? "unlike" : "like"}/${postId}`, {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -99,48 +114,16 @@ const InvestorHome = () => {
       });
 
       if (!response.ok) {
-        console.error("Error liking post");
         setLikes((prevLikes) => ({
           ...prevLikes,
-          [postId]: !prevLikes[postId],
+          [postId]: isLiked,
         }));
       }
     } catch (error) {
-      console.error("Error liking post:", error);
+      console.error("Error toggling like:", error);
       setLikes((prevLikes) => ({
         ...prevLikes,
-        [postId]: !prevLikes[postId],
-      }));
-    }
-  };
-
-  const handleUnlike = async (postId) => {
-    setLikes((prevLikes) => ({
-      ...prevLikes,
-      [postId]: !prevLikes[postId],
-    }));
-
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(`http://localhost:5000/api/posts/unlike/${postId}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        console.error("Error unliking post");
-        setLikes((prevLikes) => ({
-          ...prevLikes,
-          [postId]: !prevLikes[postId],
-        }));
-      }
-    } catch (error) {
-      console.error("Error unliking post:", error);
-      setLikes((prevLikes) => ({
-        ...prevLikes,
-        [postId]: !prevLikes[postId],
+        [postId]: isLiked,
       }));
     }
   };
@@ -205,12 +188,12 @@ const InvestorHome = () => {
                 </div>
                 <div className="post-content">
                   <p>{post.text}</p>
-                  {post.file && post.contentType?.startsWith("image") && (
-                    <img className="post-image" src={`http://localhost:5000/api/posts/file/${post.file}`} alt="Post" />
+                  {post.file && post.fileType?.startsWith("image") && (
+                    <img className="post-image" src={post.fileUrl} alt="Post" />
                   )}
-                  {post.file && post.contentType?.startsWith("video") && (
+                  {post.file && post.fileType?.startsWith("video") && (
                     <video className="post-video" controls>
-                      <source src={`http://localhost:5000/api/posts/file/${post.file}`} type={post.contentType} />
+                      <source src={post.fileUrl} type={post.fileType} />
                       Your browser does not support the video tag.
                     </video>
                   )}
@@ -222,14 +205,6 @@ const InvestorHome = () => {
                   >
                     <FaHeart /> {likes[post._id] ? "Unlike" : "Like"}
                   </button>
-                  {likes[post._id] && (
-                    <button
-                      className="unlike-button"
-                      onClick={() => handleUnlike(post._id)}
-                    >
-                      Unlike
-                    </button>
-                  )}
                 </div>
               </div>
             ))

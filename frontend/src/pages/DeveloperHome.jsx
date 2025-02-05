@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { FaBars, FaHome, FaUser, FaBell, FaCog, FaUsers, FaFacebookMessenger, FaPlusSquare, FaHeart } from "react-icons/fa";
+import {
+  FaBars,
+  FaHome,
+  FaUser,
+  FaBell,
+  FaCog,
+  FaUsers,
+  FaFacebookMessenger,
+  FaPlusSquare,
+  FaHeart,
+} from "react-icons/fa";
 import "../styles/DeveloperHome.css";
 
 const DeveloperHome = () => {
@@ -13,6 +23,7 @@ const DeveloperHome = () => {
     fetchPosts();
   }, []);
 
+  // Fetch posts from the backend
   const fetchPosts = async () => {
     setLoading(true);
     try {
@@ -37,6 +48,7 @@ const DeveloperHome = () => {
     }
   };
 
+  // Handle input changes for post form
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
     if (name === "file") {
@@ -46,6 +58,7 @@ const DeveloperHome = () => {
     }
   };
 
+  // Handle post submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -83,6 +96,7 @@ const DeveloperHome = () => {
     }
   };
 
+  // Handle like/unlike post
   const handleLike = async (postId) => {
     const isLiked = likes[postId];
     setLikes((prevLikes) => ({
@@ -100,7 +114,6 @@ const DeveloperHome = () => {
       });
 
       if (!response.ok) {
-        console.error("Error toggling like");
         setLikes((prevLikes) => ({
           ...prevLikes,
           [postId]: isLiked,
@@ -175,12 +188,12 @@ const DeveloperHome = () => {
                 </div>
                 <div className="post-content">
                   <p>{post.text}</p>
-                  {post.file && post.contentType?.startsWith("image") && (
+                  {post.file && post.fileType?.startsWith("image") && (
                     <img className="post-image" src={post.fileUrl} alt="Post" />
                   )}
-                  {post.file && post.contentType?.startsWith("video") && (
+                  {post.file && post.fileType?.startsWith("video") && (
                     <video className="post-video" controls>
-                      <source src={post.fileUrl} type={post.contentType} />
+                      <source src={post.fileUrl} type={post.fileType} />
                       Your browser does not support the video tag.
                     </video>
                   )}
