@@ -6,6 +6,7 @@ const InvestorProfile = require('../models/InvestorProfiles')
 // @desc    Login a user
 // @route   POST /auth/login
 // @access  Public
+
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -24,10 +25,18 @@ exports.loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY || '1h' });
-    return res.status(200).json({ token, user });
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRY || '1h' }
+    );
+
+    return res.status(200).json({ 
+      token, 
+      role: user.role 
+    });
   } catch (err) {
-    console.error('Login error:', err); // Log the error for debugging
+    console.error('Login error:', err);
     res.status(500).json({ message: 'Server error. Please try again later.' });
   }
 };
@@ -36,28 +45,40 @@ exports.loginUser = async (req, res) => {
 // @route   POST /auth/register
 // @access  Public
 exports.registerUser = async (req, res) => {
-  const { firstName, lastName, email, password, role } = req.body;
+  const { firstName, lastName, username, email, password, role } = req.body;
 
-  if (!firstName || !lastName || !email || !password) {
+  if (!firstName || !lastName || !username || !email || !password) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
   try {
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    // Check if the email already exists
+    const existingEmailUser = await User.findOne({ email });
+    if (existingEmailUser) {
       return res.status(400).json({ message: 'Email already exists' });
     }
 
-    const newUser = new User({ firstName, lastName, email, password, role });
+    // Check if the username already exists
+    const existingUsernameUser = await User.findOne({ username });
+    if (existingUsernameUser) {
+      return res.status(400).json({ message: 'Username already exists. Please choose a different one.' });
+    }
+
+    // Create and save the new user
+    const newUser = new User({ firstName, lastName, username, email, password, role });
     await newUser.save();
 
     const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY || '1h' });
+
     return res.status(201).json({ token, user: newUser });
   } catch (err) {
     console.error('Registration error:', err); // Log the error for debugging
     res.status(500).json({ message: 'Registration failed. Please try again later.' });
   }
 };
+
+
+
 
 // @desc    Save or update developer profile
 // @route   POST /auth/developer-profile

@@ -13,6 +13,13 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Last name is required'],
     trim: true,
   },
+  username: {
+    type: String,
+    unique: true,
+    required: [true, 'Username is required'],
+    trim: true,
+    minlength: [3, 'Username must be at least 3 characters long'],
+  },
   email: {
     type: String,
     unique: true,
@@ -32,7 +39,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Role is required'],
   },
 }, {
-  timestamps: true, // Automatically adds createdAt and updatedAt fields
+  timestamps: true,
 });
 
 // Hash password before saving the user
@@ -53,4 +60,6 @@ userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-module.exports = mongoose.model('User', userSchema);
+const User = mongoose.models.User || mongoose.model('User', userSchema);
+
+module.exports = User;

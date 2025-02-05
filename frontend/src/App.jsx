@@ -6,6 +6,9 @@ import SignIn from './pages/SignIn';
 import DeveloperForm from './pages/DeveloperForm';
 import InnovatorForm from './pages/InnovatorForm';
 import InvestorForm from './pages/InvestorForm';
+import DeveloperHome from './pages/DeveloperHome';
+import InnovatorHome from './pages/InnovatorHome';
+import InvestorHome from './pages/InvestorHome';
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
         <Route path="/developer-form" element={<DeveloperForm />} />
         <Route path="/innovator-form" element={<InnovatorForm />} />
         <Route path="/investor-form" element={<InvestorForm />} />
+        <Route path="/developerhome" element={<DeveloperHome />} />
+        <Route path="/innovatorhome" element={<InnovatorHome />} />
+        <Route path="/investorhome" element={<InvestorHome />} />
       </Routes>
     </Router>
   );

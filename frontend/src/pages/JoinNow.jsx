@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import navigation hook
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/JoinNow.css';
 
@@ -7,6 +7,7 @@ function JoinNow() {
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
+    username: '',
     email: '',
     password: '',
     role: 'Developer',
@@ -14,7 +15,7 @@ function JoinNow() {
 
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const navigate = useNavigate(); // Initialize the navigation hook
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -23,7 +24,14 @@ function JoinNow() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/auth/register', formData);
+      const response = await axios.post('http://localhost:5000/api/auth/register', formData);
+
+      // Store token in localStorage for future authenticated requests
+      const { token } = response.data;
+      if (token) {
+        localStorage.setItem('token', token);
+      }
+
       setSuccessMessage('Registration Successful!');
       setErrorMessage('');
 
@@ -39,7 +47,11 @@ function JoinNow() {
       }, 1000);
     } catch (err) {
       setSuccessMessage('');
-      setErrorMessage('Error registering user. Please try again.');
+      if (err.response && err.response.data.message) {
+        setErrorMessage(err.response.data.message);
+      } else {
+        setErrorMessage('Error registering user. Please try again.');
+      }
     }
   };
 
@@ -65,6 +77,17 @@ function JoinNow() {
             name="lastName"
             placeholder="Last Name"
             value={formData.lastName}
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <label>Username:</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={formData.username}
             onChange={handleChange}
             required
           />

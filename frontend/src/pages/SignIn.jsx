@@ -1,4 +1,3 @@
-// ---- Frontend/src/pages/SignIn.jsx ----
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -14,9 +13,20 @@ function SignIn() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
-      if (response.data.token) {
+      if (response.data.token && response.data.role) {
         localStorage.setItem('token', response.data.token);
-        navigate('/innovator-form'); // Redirect to home page
+        const userRole = response.data.role;
+
+        // Redirect based on user role
+        if (userRole === 'Developer') {
+          navigate('/developerhome');
+        } else if (userRole === 'Innovator') {
+          navigate('/innovatorhome');
+        } else if (userRole === 'Investor') {
+          navigate('/investorhome');
+        } else {
+          setErrorMessage('Unknown user role.');
+        }
       }
     } catch (err) {
       setErrorMessage('Invalid credentials. Please try again or register.');

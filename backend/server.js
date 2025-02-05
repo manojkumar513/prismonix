@@ -1,9 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const connectDB = require('./config/db');
-const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
+const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const connectDB = require("./config/db");
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+const postRoutes = require("./routes/postRoutes");
 
 dotenv.config(); // Load environment variables
 
@@ -19,18 +20,21 @@ app.use(cors({
   methods: 'GET,POST,PUT,DELETE',
   credentials: true,
 }));
-app.use(express.json()); 
+app.use(express.json());
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/posts", postRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Internal server error' });
+  console.error("Error stack:", err.stack);
+  res.status(500).json({ message: "Internal server error" });
 });
 
+// Server error handling
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
