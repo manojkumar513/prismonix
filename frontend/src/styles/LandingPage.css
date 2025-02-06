@@ -33,6 +33,7 @@
   
   .nav-button {
     padding: 10px 20px;
+    background-color: #007bff;
     color: white;
     text-decoration: none;
     border: 2px solid white;
@@ -41,7 +42,7 @@
   }
   
   .nav-button:hover {
-    background-color: white;
+    background-color: 0056b3;
     color: #0a192f;
   }
   

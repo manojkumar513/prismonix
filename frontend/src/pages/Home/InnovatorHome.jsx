@@ -9,6 +9,7 @@ import {
   FaFacebookMessenger,
   FaPlusSquare,
   FaHeart,
+  FaRobot,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import "C:/Users/manoj555/Desktop/prismonix_chatgpt/frontend/src/styles/DeveloperHome.css";
@@ -155,6 +156,9 @@ const InnovatorHome = () => {
             </li>
             <li className="icon-item" onClick={() => navigate("/messaging")}>
               <FaFacebookMessenger size={24} />
+            </li>
+            <li className="icon-item" onClick={() => navigate("/chatbotpage")}>
+              <FaRobot size={24} />
             </li>
             <li
               className="icon-item"
