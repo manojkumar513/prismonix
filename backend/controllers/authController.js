@@ -95,14 +95,16 @@ exports.saveDeveloperProfile = async (req, res) => {
     termsAccepted 
   } = req.body;
   
-  const userId = req.userId; // Extract from middleware for authenticated requests
+  const userId = req.userId;
 
+  // Validate if terms are accepted
   if (!termsAccepted) {
-    return res.status(400).json({ message: 'Please accept the terms and conditions' });
+    return res.status(400).json({ message: 'Please accept the terms and conditions.' });
   }
 
+  // Verify userId existence from authentication middleware
   if (!userId) {
-    return res.status(401).json({ message: 'Unauthorized: User ID not found' });
+    return res.status(401).json({ message: 'Unauthorized: User ID not found.' });
   }
 
   try {
@@ -111,16 +113,18 @@ exports.saveDeveloperProfile = async (req, res) => {
 
     if (developerProfile) {
       // Update existing profile
-      developerProfile.location = location;
-      developerProfile.definesYou = definesYou;
-      developerProfile.education = education;
-      developerProfile.skills = skills;
-      developerProfile.preferredEmploymentType = preferredEmploymentType;
-      developerProfile.preferredWorkEnvironment = preferredWorkEnvironment;
-      developerProfile.experience = experience;
-      developerProfile.termsAccepted = termsAccepted;
+      developerProfile = Object.assign(developerProfile, {
+        location,
+        definesYou,
+        education,
+        skills,
+        preferredEmploymentType,
+        preferredWorkEnvironment,
+        experience,
+        termsAccepted,
+      });
     } else {
-      // Create new profile
+      // Create a new profile
       developerProfile = new DeveloperProfile({
         userId,
         location,
@@ -135,9 +139,10 @@ exports.saveDeveloperProfile = async (req, res) => {
     }
 
     await developerProfile.save();
-    res.status(201).json({ message: 'Profile saved successfully', profile: developerProfile });
+    res.status(201).json({ message: 'Profile saved successfully.', profile: developerProfile });
+
   } catch (err) {
-    console.error('Save profile error:', err); // Log the error for debugging
+    console.error('Save profile error:', err); 
     res.status(500).json({ message: 'Failed to save profile. Please try again later.' });
   }
 };

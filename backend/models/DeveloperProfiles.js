@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
-
 const DeveloperProfileSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   location: { type: String, required: true },
   definesYou: { type: String, required: true },
   education: { type: String },

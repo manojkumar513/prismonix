@@ -1,0 +1,161 @@
+/* Messaging Page Layout */
+.messaging-container {
+    display: flex;
+    height: 100vh;
+    background-color: #f0f4f8; /* Light blue background */
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: #ffffff; /* White background for the sidebar */
+    color: #333; /* Dark text color */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add slight shadow for depth */
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar .icon-item {
+    font-size: 24px;
+    margin: 20px 0;
+    transition: color 0.2s;
+}
+
+.sidebar .icon-item:hover {
+    color: #2f2f7f; /* Blue color when hovering over icons */
+}
+
+/* User List Section */
+.user-list {
+    width: 20%;
+    background-color: #ffffff;
+    border-right: 1px solid #e0e0e0;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.user-list h3 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.user-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.user-list li {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 5px 0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.user-list li:hover {
+    background-color: #e3f2fd; /* Light blue hover effect */
+}
+
+/* Chat Section */
+.chat-section {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    padding: 15px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.chat-section h3 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* Message List */
+.message-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.message {
+    display: inline-block;
+    max-width: 70%;
+    margin: 5px 0;
+    padding: 8px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    word-wrap: break-word;
+    position: relative;
+}
+
+.sent {
+    background-color: #e1ffc7; /* Light green background for sent messages */
+    align-self: flex-end;
+    margin-left: auto;
+    text-align: right;
+}
+
+.received {
+    background-color: #ffffff; /* White background for received messages */
+    border: 1px solid #ddd;
+}
+
+/* Timestamp */
+.timestamp {
+    display: block;
+    font-size: 10px;
+    color: #888;
+    margin-top: 3px;
+}
+
+/* Message Input Section */
+.message-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-top: 1px solid #ddd;
+}
+
+.message-input input {
+    flex: 1;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.message-input button {
+    background-color: #2f2f7f; /* Blue button background */
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+}
+
+.message-input button:hover {
+    background-color: #5050aa; /* Lighter blue on hover */
+}

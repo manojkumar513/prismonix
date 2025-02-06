@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './components/LandingPage';
 import JoinNow from './pages/JoinNow';
 import SignIn from './pages/SignIn';
-import DeveloperForm from './pages/DeveloperForm';
-import InnovatorForm from './pages/InnovatorForm';
-import InvestorForm from './pages/InvestorForm';
-import DeveloperHome from './pages/DeveloperHome';
-import InnovatorHome from './pages/InnovatorHome';
-import InvestorHome from './pages/InvestorHome';
+import DeveloperForm from './pages/Forms/DeveloperForm';
+import InnovatorForm from './pages/Forms/InnovatorForm';
+import InvestorForm from './pages/Forms/InvestorForm';
+import DeveloperHome from './pages/Home/DeveloperHome';
+import InnovatorHome from './pages/Home/InnovatorHome';
+import InvestorHome from './pages/Home/InvestorHome';
+import MessagingPage from './pages/MessagingPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/developerhome" element={<DeveloperHome />} />
         <Route path="/innovatorhome" element={<InnovatorHome />} />
         <Route path="/investorhome" element={<InvestorHome />} />
+        <Route path="/messaging" element={<MessagingPage />} />
       </Routes>
     </Router>
   );

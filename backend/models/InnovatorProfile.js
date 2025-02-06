@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const InnovatorProfileSchema = new mongoose.Schema({
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
     location: { type: String, required:true },
     education: { type: String, required:true },
     currentRole: { type: String, required:true },
