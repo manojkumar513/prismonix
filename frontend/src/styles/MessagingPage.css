@@ -91,6 +91,9 @@
     border: 1px solid #ddd;
     border-radius: 10px;
     margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between messages */
 }
 
 .message {
@@ -106,14 +109,16 @@
 
 .sent {
     background-color: #e1ffc7; /* Light green background for sent messages */
-    align-self: flex-end;
+    align-self: flex-end; /* Align sent messages to the right */
     margin-left: auto;
     text-align: right;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for sent messages */
 }
 
 .received {
     background-color: #ffffff; /* White background for received messages */
     border: 1px solid #ddd;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow for received messages */
 }
 
 /* Timestamp */

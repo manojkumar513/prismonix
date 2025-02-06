@@ -17,6 +17,7 @@ const MessagingPage = () => {
   const [loggedInUsername, setLoggedInUsername] = useState("");
   const [userRole, setUserRole] = useState(""); // Store the role of the user
   const [error, setError] = useState("");
+  const [messageTimestamps, setMessageTimestamps] = useState(new Set()); // Track sent message timestamps
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -44,11 +45,21 @@ const MessagingPage = () => {
     setSocket(newSocket);
 
     newSocket.on("receive_message", (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
+      // Prevent adding the same message twice
+      if (message.receiver === loggedInUsername || message.sender === loggedInUsername) {
+        setMessages((prevMessages) => {
+          // Check if the message is already in the list based on timestamp
+          if (!messageTimestamps.has(message.timestamp)) {
+            setMessageTimestamps((prevTimestamps) => new Set(prevTimestamps).add(message.timestamp));
+            return [...prevMessages, message];
+          }
+          return prevMessages;
+        });
+      }
     });
 
     return () => newSocket.disconnect(); // Cleanup the socket connection
-  }, []);
+  }, [loggedInUsername, messageTimestamps]);
 
   useEffect(() => {
     axios
@@ -64,13 +75,17 @@ const MessagingPage = () => {
     if (selectedUser && loggedInUsername) {
       axios
         .get(`http://localhost:5000/api/messages/messages/${loggedInUsername}/${selectedUser}`)
-        .then((response) => setMessages(response.data))
+        .then((response) => {
+          const newMessages = response.data.filter(msg => !messageTimestamps.has(msg.timestamp));
+          setMessages((prevMessages) => [...newMessages, ...prevMessages]); // Prepend the new messages
+          newMessages.forEach(msg => setMessageTimestamps((prev) => new Set(prev).add(msg.timestamp)));
+        })
         .catch((error) => {
           console.error("Error fetching messages:", error);
           setError("Failed to fetch messages.");
         });
     }
-  }, [selectedUser, loggedInUsername]);
+  }, [selectedUser, loggedInUsername, messageTimestamps]);
 
   const handleSendMessage = () => {
     if (messageInput.trim()) {
@@ -78,7 +93,7 @@ const MessagingPage = () => {
         sender: loggedInUsername,
         receiver: selectedUser,
         text: messageInput,
-        timestamp: new Date(),
+        timestamp: new Date().toISOString(), // Use ISO string to uniquely identify the message
       };
 
       socket.emit("send_message", messageData);
@@ -86,7 +101,8 @@ const MessagingPage = () => {
       axios
         .post("http://localhost:5000/api/messages/messages", messageData)
         .then(() => {
-          setMessages((prevMessages) => [...prevMessages, messageData]);
+          setMessages((prevMessages) => [messageData, ...prevMessages]); // Prepend the sent message
+          setMessageTimestamps((prevTimestamps) => new Set(prevTimestamps).add(messageData.timestamp)); // Add message timestamp
           setMessageInput("");
         })
         .catch((error) => {
@@ -103,7 +119,6 @@ const MessagingPage = () => {
     }
   }, [messages]);
 
-  // Function to handle home icon click and redirect based on user role
   const handleHomeClick = () => {
     if (userRole === "Developer") {
       navigate("/developerhome");
@@ -112,11 +127,10 @@ const MessagingPage = () => {
     } else if (userRole === "Investor") {
       navigate("/investorhome");
     } else {
-      navigate("/home"); // Fallback route if user role is undefined
+      navigate("/home");
     }
   };
 
-  // Function to handle messaging button click
   const handleMessagingClick = () => {
     navigate("/messaging");
   };
