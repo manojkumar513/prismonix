@@ -10,6 +10,7 @@ import DeveloperHome from './pages/Home/DeveloperHome';
 import InnovatorHome from './pages/Home/InnovatorHome';
 import InvestorHome from './pages/Home/InvestorHome';
 import MessagingPage from './pages/MessagingPage';
+import ChatBot from './pages/ChatbotPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/innovatorhome" element={<InnovatorHome />} />
         <Route path="/investorhome" element={<InvestorHome />} />
         <Route path="/messaging" element={<MessagingPage />} />
+        <Route path="/chatbotpage" element={<ChatBot />} />
       </Routes>
     </Router>
   );

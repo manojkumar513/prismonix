@@ -1,0 +1,141 @@
+.chat-container {
+  display: flex;
+  background-color: #f7f7f7;
+  height: 100vh;
+  font-family: 'Roboto', sans-serif;
+}
+
+.sidebar {
+  background-color: #f7f7f7;
+  color: #555;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar .icon-item {
+  font-size: 24px;
+  margin: 20px 0;
+}
+
+.chat-section {
+  flex: 1;
+  background-color: #fafafa;
+  color: #333;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.header{
+  align-self: center;
+  background-color: #fff;
+}
+
+.header h1 {
+  margin: 0;
+  color: #000000;
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.chat-history {
+  height: calc(100vh - 160px);
+  overflow-y: auto;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #e9e9e9;
+}
+
+.chat-message {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+.user-message, .bot-message {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.user-message p, .bot-message pre {
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin: 0;
+  max-width: 70%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.error-message {
+  color: #d9534f;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.message-form {
+  display: flex;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.message-input {
+  flex: 1;
+  border: 1px solid #ccc;
+  color: #333;
+  padding: 12px;
+  border-radius: 20px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  background-color: #fff;
+}
+
+.send-button {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.send-button:hover {
+  background-color: #45a049;
+}
+
+.send-button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.chat-history::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chat-history::-webkit-scrollbar-thumb {
+  background-color: #bbb;
+  border-radius: 10px;
+}
+
+.chat-history::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
